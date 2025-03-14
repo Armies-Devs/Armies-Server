@@ -15,13 +15,16 @@ Pls
 
 ## Git Branch Strategy
 <!-- Maybe add a little diagram -->
+
+```
 main - releases when merged into and tagged 
     development - Development baseline
         f/{feature-name} - features
         b/{bug-name} - bug fixes 
         d/(documentation-desc) - changes that are exclusivly documentation based - could make a rule that d/ tickets don't require review 
+```
 
 ## Database info
-Currently the database will use MySQL which will make a little db.sqlite3 file in your code directory.
+Currently the database will use SQLite which will make a little db.sqlite3 file in your code directory.
 
 In the future postgres will probably get used since I'm used to it.
