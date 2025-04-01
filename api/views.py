@@ -34,6 +34,12 @@ def login(request : HttpRequest):
 
 # @csrf_exempt BAD TO DO but for now we ball
 @csrf_exempt
+# REQUEST -
+# {
+#     "user": int,
+#     "turn": int,
+#     "game_state": String
+# }
 def upload(request : HttpRequest):
 
     if(request.method == 'POST'):
