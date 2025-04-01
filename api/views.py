@@ -57,12 +57,10 @@ def upload(request : HttpRequest):
         if(request_okay):
             body_json = json.loads(request.body)
             # Check for User
-            USER_LIST : User = User.objects.all().filter(id = body_json["user"])
+            USER_LIST = User.objects.all().filter(id = body_json["user"])
             if(len(USER_LIST) > 0):
-                n = random.randint(0,len(USER_LIST)-1)
-                USER = USER_LIST[n]
+                USER = USER_LIST[0]
                 PotentialGameStates = GameState.objects.all().exclude(user = USER).filter(turn = body_json["turn"])
-                # For now we are just going to return the first one found  
                 if(len(PotentialGameStates) == 0):
                     return_body["error"] = True
                     return_body["code"] = "GD001"
@@ -70,7 +68,9 @@ def upload(request : HttpRequest):
                     status = 400
 
                 else:
-                    SelectedGameState : GameState = PotentialGameStates[0]
+                    n = random.randint(0,len(PotentialGameStates)-1)
+                    print(n)
+                    SelectedGameState : GameState = PotentialGameStates[n]
                     return_body["message"] = "SUCCESS - Enemy Data Found"
                     return_body["enemy_user"] = SelectedGameState.user.user_name
                     return_body["enemy_game_state"] = SelectedGameState.map
