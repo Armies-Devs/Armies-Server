@@ -26,6 +26,7 @@ def login(request : HttpRequest):
 def upload(request : HttpRequest):
 
     request_okay = _verify_upload(request)
+    # See below as the interface of return body
     return_body = {
         "error": False,
         "message": "",
@@ -33,6 +34,7 @@ def upload(request : HttpRequest):
         "enemy_user": "",
         "enemy_game_state": ""
     }
+    status = 200
     if(request_okay):
         body_json = json.loads(request.body)
         # Check for User
@@ -45,7 +47,8 @@ def upload(request : HttpRequest):
                 return_body["error"] = True
                 return_body["code"] = "GD001"
                 return_body["message"] = "ERROR - No Available Enemy Data"
-                return HttpResponse(json.dumps(return_body), content_type="application/json", status=400) 
+                status = 400
+
             else:
                 SelectedGameState : GameState = PotentialGameStates[0]
                 return_body["message"] = "SUCCESS - Enemy Data Found"
@@ -53,20 +56,20 @@ def upload(request : HttpRequest):
                 return_body["enemy_game_state"] = SelectedGameState.map
 
                 GameState(user=USER, turn=body_json["turn"], map=body_json["game_state"]).save()
-
-                return HttpResponse(json.dumps(return_body), content_type="application/json")   
         else:
             return_body["error"] = True
             return_body["message"] = "ERROR - User Does Not Exist"
             return_body["code"] = "US001"
-            return HttpResponse(json.dumps(return_body), content_type="application/json", status=400)
+            status = 400
+            
     else:
-        return_body = {
-            "error": True,
-            "message": "ERROR - Request Invalid",
-            "code": "RE001"
-        }
-        return HttpResponse(json.dumps(return_body), content_type="application/json", status=400)
+        return_body["error"] = True
+        return_body["message"] = "ERROR - Request Invalid"
+        return_body["code"] = "RE001"
+        status = 400
+
+    # Return return_body
+    return HttpResponse(json.dumps(return_body), content_type="application/json", status=status)
     
 def _verify_upload(request : HttpRequest):
     return True
