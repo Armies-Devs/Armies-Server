@@ -69,7 +69,6 @@ def upload(request : HttpRequest):
 
                 else:
                     n = random.randint(0,len(PotentialGameStates)-1)
-                    print(n)
                     SelectedGameState : GameState = PotentialGameStates[n]
                     return_body["message"] = "SUCCESS - Enemy Data Found"
                     return_body["enemy_user"] = SelectedGameState.user.user_name
