@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import random
 
 from api.models.user import User
 from api.models.game_state import GameState
@@ -58,7 +59,8 @@ def upload(request : HttpRequest):
             # Check for User
             USER_LIST : User = User.objects.all().filter(id = body_json["user"])
             if(len(USER_LIST) > 0):
-                USER = USER_LIST[0]
+                n = random.randint(0,len(USER_LIST)-1)
+                USER = USER_LIST[n]
                 PotentialGameStates = GameState.objects.all().exclude(user = USER).filter(turn = body_json["turn"])
                 # For now we are just going to return the first one found  
                 if(len(PotentialGameStates) == 0):
