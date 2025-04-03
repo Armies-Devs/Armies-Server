@@ -8,8 +8,6 @@ https://docs.djangoproject.com/en/5.1/topics/install/
 
 https://www.postgresql.org/docs/current/datatype-json.html
 
-https://dev.mysql.com/doc/refman/8.4/en/json.html
-
 ## DONT COMMIT PASSWORDS
 Pls
 
