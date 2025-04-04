@@ -26,3 +26,11 @@ main - releases when merged into and tagged
 Currently the database will use SQLite which will make a little db.sqlite3 file in your code directory.
 
 In the future postgres will probably get used since I'm used to it.
+
+### Database Seed
+We have a seed command that will allow us to create some test data. Currently just uses the same map value for everyone
+
+- python manage.py seed <number_of_users> <number_of_turns>
+
+eg: 
+- python manage.py seed 10 10
