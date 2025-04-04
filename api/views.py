@@ -11,8 +11,8 @@ from api.models.user import User
 from api.models.game_state import GameState
 
 # @csrf_exempt BAD TO DO but for now we ball
-@csrf_exempt
 # Currently makes a new user and passes the ID and name back
+@csrf_exempt
 def login(request : HttpRequest):
     if(request.method == 'POST'):   
 
@@ -34,13 +34,13 @@ def login(request : HttpRequest):
         }, status=403)
 
 # @csrf_exempt BAD TO DO but for now we ball
-@csrf_exempt
 # REQUEST -
 # {
 #     "user": int,
 #     "turn": int,
 #     "game_state": String
 # }
+@csrf_exempt
 def upload(request : HttpRequest):
 
     if(request.method == 'POST'):
@@ -66,7 +66,6 @@ def upload(request : HttpRequest):
                     return_body["code"] = "GD001"
                     return_body["message"] = "ERROR - No Available Enemy Data"
                     status = 400
-
                 else:
                     n = random.randint(0,len(PotentialGameStates)-1)
                     SelectedGameState : GameState = PotentialGameStates[n]
@@ -74,7 +73,7 @@ def upload(request : HttpRequest):
                     return_body["enemy_user"] = SelectedGameState.user.user_name
                     return_body["enemy_game_state"] = SelectedGameState.map
 
-                    GameState(user=USER, turn=body_json["turn"], map=body_json["game_state"]).save()
+                GameState(user=USER, turn=body_json["turn"], map=body_json["game_state"]).save()
             else:
                 return_body["error"] = True
                 return_body["message"] = "ERROR - User Does Not Exist"
@@ -98,6 +97,7 @@ def upload(request : HttpRequest):
 def _verify_upload(request : HttpRequest):
     return True
 
+@csrf_exempt
 def _debug_upload(request : HttpRequest):
     print("BODY")
     print(request.body)
